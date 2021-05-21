@@ -5,28 +5,17 @@ import Input from './Components/Input';
 import Result from './Components/Result';
 import Rover from './Components/Rover';
 
-
-async function startRover(x, y, o, mouvement, callback){
-  console.log(x, y, o);
-  let newX = parseInt(x);
-  let newY = parseInt(y);
-  let newO = o;
-  let i=0
-  let array = [o]
-  let degres = [0]
-}
-
 function App() {
   const [roverInitialPosition, setRoverInitalPosition] = useState("00")
   const [maxX, setMaxX] = useState('0')
   const [maxY, setMaxY] = useState('0')
-  const [roverFinalX, setRoverFinalX] = useState({})
-  const [roverFinalY, setRoverFinalY] = useState({})
+  const [roverFinalX, setRoverFinalX] = useState()
+  const [roverFinalY, setRoverFinalY] = useState()
   const [showOutput, setShowOutput ] = useState(false)
-  const [step, setStep] = useState({});
+  const [step, setStep] = useState();
   const [rover1Mouvement, setRover1Mouvement] = useState(false);
   const [rover2Mouvement, setRover2Mouvement] = useState(false);
-  const [orientation, setOrientaion] = useState({});
+  const [orientation, setOrientaion] = useState();
   
   function handleInputSubmit(inputValue){
     // get and seperate all textArea value
@@ -39,72 +28,69 @@ function App() {
 
     // set rover1 inital value and movement
     const rover1InitialPosition = lineBreakValue[1]?.split(' ');
-    setRoverFinalX({...roverFinalX, 1: rover1InitialPosition[0]});
-    setRoverFinalY({...roverFinalY, 1: rover1InitialPosition[1]});
-    setStep({...step, 1:0})
-    setOrientaion({...orientation, 1: rover1InitialPosition[2]});
+    setStep({ 1:0 })
     setRover1Mouvement(lineBreakValue[2]?.split(''));
-
+    
     // set rover2 inital value and movement
     const rover2InitialPosition = lineBreakValue[3]?.split(' ');
-    setRoverFinalX({...roverFinalX, 2: rover2InitialPosition[0]});
-    setRoverFinalY({...roverFinalY, 2: rover2InitialPosition[1]});
-    setOrientaion({...orientation, 1: rover2InitialPosition[2]});
+    setRoverFinalX({ 1: rover1InitialPosition[0], 2: rover2InitialPosition[0]});
+    setRoverFinalY({ 1: rover1InitialPosition[1], 2: rover2InitialPosition[1]});
+    setOrientaion({1: rover1InitialPosition[2], 2: rover2InitialPosition[2]});
     setRover2Mouvement(lineBreakValue[4]?.split(''));
   };
 
   function goToN(id){
     console.log('turnToN');
-    setOrientaion({...orientation, id:"N"});
-    setStep({...step, id: step[id]+1 })
+    setOrientaion({...orientation, [id]:"N"});
+    setStep({...step, [id]: step[id]+1 })
   }
   function goToE(id){
-    setOrientaion({...orientation, id:"E"});
+    setOrientaion({...orientation, [id]:"E"});
     console.log('turnToE');
-    setStep({...step, id: step[id]+1 })
+    setStep({...step, [id]: step[id]+1 })
   }
   function goToS(id){
-    setOrientaion({...orientation, id:"S"});
+    setOrientaion({...orientation, [id]:"S"});
     console.log('turnToS');
-    setStep({...step, id: step[id]+1 })
+    setStep({...step, [id]: step[id]+1 })
   }
   function goToW(id){
     console.log('turnToW');
-    setOrientaion({...orientation, id:"W"});
-    setStep({...step, id: step[id]+1 })
+    setOrientaion({...orientation, [id]:"W"});
+    setStep({...step, [id]: step[id]+1 })
   }
   function goToXMore1(id){
     console.log('x+1');
     if(roverFinalX[id] >= 0 && roverFinalX[id] < maxX){
-      setRoverFinalX({...roverFinalX, id: parseInt(roverFinalX[id]+1)});
+      setRoverFinalX({...roverFinalX, [id]: parseInt(roverFinalX[id])+1});
     }
-    setStep({...step, id: step[id]+1 })
+    setStep({...step, [id]: step[id]+1 })
   }
   function goToXLess1(id){
-    console.log('x-1');
+    console.log('x-1', roverFinalX[id] < maxX);
     if(roverFinalX[id] >= 0 && roverFinalX[id] < maxX){
-      setRoverFinalX({...roverFinalX, id: parseInt(roverFinalX[id]-1)});
+      setRoverFinalX({...roverFinalX, [id]: parseInt(roverFinalX[id])-1});
     }
-    setStep({...step, id: step[id]+1 })
+    setStep({...step, [id]: step[id]+1 })
   }
   function goToYMore1(id){
     console.log('y+1');
     if(roverFinalY[id] >= 0 && roverFinalY[id] < maxY){
-      setRoverFinalY({...roverFinalY, id: parseInt(roverFinalY[id]+1)});
+      setRoverFinalY({...roverFinalY, [id]: parseInt(roverFinalY[id])+1});
     }
-    setStep({...step, id: step[id]+1 })
+    setStep({...step, [id]: step[id]+1 })
   }
   function goToYLess1(id){
     console.log('y-1');
     if(roverFinalY[id] >= 0 && roverFinalY[id] < maxY){
-      setRoverFinalY({...roverFinalY, [id]: parseInt(roverFinalY[id]-1)});
+      setRoverFinalY({...roverFinalY, [id]: parseInt(roverFinalY[id])-1});
     }
-    setStep({...step, id: step[id]+1 })
+    setStep({...step, [id]: step[id]+1 })
   }
   
 
   function mouvL(id){
-    switch(orientation){
+    switch(orientation?.[id]){
       case "N":
         goToW(id)
         break;
@@ -117,11 +103,11 @@ function App() {
       case "E":
         goToN(id)
         break;
-      default: console.log('error');
+      default: console.log('errorr');
     }
   }
   function mouvR(id){
-    switch(orientation){
+    switch(orientation?.[id]){
       case "N":
         goToE(id)
         break;
@@ -134,11 +120,11 @@ function App() {
       case "E":
         goToS(id)
         break;
-        default: console.log('error');
+        default: console.log('errorrr');
     }
   }
   function mouvM(id){
-    switch(orientation){
+    switch(orientation?.[id]){
       case "N":
         goToYMore1(id)
         break;
@@ -151,10 +137,11 @@ function App() {
       case "E":
         goToXMore1(id)
         break;
-        default: console.log('error');
+        default: console.log('errorrrrr');
     }
   }
   function ends(){
+    setStep({...step, 2:0})
     console.log('ends');
   }
   
@@ -165,10 +152,10 @@ function App() {
       </Grid>
       {
         rover1Mouvement &&
-        <Rover id={1} step={step[1]} orientation={orientation} mouvement={rover1Mouvement} ends={ends} mouvR={mouvR} mouvM={mouvM} mouvL={mouvL} x={roverFinalX?.[1]} y={roverFinalY?.[1]} />
+        <Rover id={1} step={step[1]} orientation={orientation?.[1]} mouvement={rover1Mouvement} ends={ends} mouvR={mouvR} mouvM={mouvM} mouvL={mouvL} x={roverFinalX?.[1]} y={roverFinalY?.[1]} />
       }
       {
-        (step[2] >= 0) &&
+        (step?.[2] >= 0) &&
         <Rover id={2}  step={step[2]} orientation={orientation?.[2]} mouvement={rover2Mouvement} ends={ends} mouvR={mouvR} mouvM={mouvM} mouvL={mouvL} x={roverFinalX?.[2]} y={roverFinalY?.[2]} />
       }
       {
