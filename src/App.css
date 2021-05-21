@@ -1,10 +1,36 @@
 .App {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Grid {
+  display: flex;
+  flex-wrap: wrap;
+  height: 400px;
+  width: 400px;
+}
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  height: calc(100%/6);
+  width: calc(100%/6);
+}
+
+.roverImg {
+  height: 60%;
+  width: 60%;
+}
+
+.inputContainer {
+  display: flex;
+  flex-direction: column;
 }
 
 @media (prefers-reduced-motion: no-preference) {
