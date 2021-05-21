@@ -2,15 +2,8 @@ import React from 'react';
 import RoverImage from '../assets/roverMars.png';
 
 
-const Grid = ({ roverPosition, maxX, maxY }) => {
-  const coordinate = [
-    '05','15','25','35','45','55',
-    '04','14','24','34','44','54',
-    '03','13','23','33','43','53',
-    '02','12','22','32','42','52',
-    '01','11','21','31','41','51',
-    '00','10','20','30','40','50',
-  ]
+const Grid = ({ initialValue, roverXPosition, roverYPosition, maxX, maxY, orientation }) => {
+
   let coordinates = []
 
   for(let y = maxY; y > -1; y--) {
@@ -20,20 +13,40 @@ const Grid = ({ roverPosition, maxX, maxY }) => {
     }
   }
 
+  const rover1Point = `${roverXPosition?.[1]}${roverYPosition?.[1]}`
+  const rover2Point = `${roverXPosition?.[2]}${roverYPosition?.[2]}`
+  const orientation1 = orientation?.[1];
+  const orientation2 = orientation?.[2];
+  
   return( 
-  <div className='Grid'>
-    {
-      coordinates.map((coordinatePoint) => {
-        return(
-          <div className='square' id={coordinatePoint}>
-            {
-              (roverPosition == coordinatePoint) && <img className="roverImg" src={RoverImage} alt="rover" />  
-            }
-          </div>
-        )
-      })
-    }
-  </div>
+  <div>
+   <h3>{initialValue ? "Initial Position" : "End Position"}</h3>
+    <div className='Grid'>
+    
+      {
+        coordinates.map((coordinatePoint) => {
+          return(
+            <div className='square' id={coordinatePoint}>
+              {
+                (rover1Point == coordinatePoint) &&
+                <div>
+                  <img className={`roverImg ${orientation1}`} src={RoverImage} alt="rover" /> 
+                  <p>Rover 1</p>
+                </div>
+              }
+              {
+                (rover2Point == coordinatePoint) && 
+                <div>
+                  <img className={`roverImg ${orientation2}`} src={RoverImage} alt="rover" /> 
+                  <p>Rover 2</p>
+              </div> 
+              }
+            </div>
+          )
+        })
+      }
+    </div>
+</div>
 );
 
 }

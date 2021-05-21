@@ -4,7 +4,7 @@ const Input = ({ handleInputSubmit }) => {
   const [inputContent, setInputContent] = useState();
   return(
   <div className="inputContainer">
-    <label>Input</label>
+    <h2>Input</h2>
     <textarea value={inputContent} onChange={(e) => setInputContent(e.target.value)} />
     <button onClick={() => handleInputSubmit(inputContent)}>Start</button>
   </div>

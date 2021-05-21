@@ -1,9 +1,19 @@
 .App {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   height: 100vh;
   text-align: center;
+}
+
+.gridsContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+.main {
+  display: flex;
 }
 
 .Grid {
@@ -24,13 +34,28 @@
 }
 
 .roverImg {
-  height: 60%;
-  width: 60%;
+  height: 50%;
+  width: 50%;
+}
+
+.N{
+  -webkit-transform:rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -ms-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  transform: rotate(270deg);
+}
+
+p {
+  margin: 0;
+  padding: 0;
+  font-size: 14;
 }
 
 .inputContainer {
   display: flex;
   flex-direction: column;
+  margin: 0 30px;
 }
 
 @media (prefers-reduced-motion: no-preference) {

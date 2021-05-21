@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 
-
 const Rover = ({ step, orientation, mouvement, ends, mouvR, mouvM, mouvL, x, y, id }) => {
     useEffect(() => {
         console.log(orientation);

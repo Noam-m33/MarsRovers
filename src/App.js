@@ -2,7 +2,6 @@ import { useState } from 'react';
 import './App.css';
 import Grid from './Components/Grid';
 import Input from './Components/Input';
-import Result from './Components/Result';
 import Rover from './Components/Rover';
 
 function App() {
@@ -11,7 +10,8 @@ function App() {
   const [maxY, setMaxY] = useState('0')
   const [roverFinalX, setRoverFinalX] = useState()
   const [roverFinalY, setRoverFinalY] = useState()
-  const [showOutput, setShowOutput ] = useState(false)
+  const [roverInitialX, setRoverInitialX] = useState()
+  const [roverInitialY, setRoverInitialY] = useState()
   const [step, setStep] = useState();
   const [rover1Mouvement, setRover1Mouvement] = useState(false);
   const [rover2Mouvement, setRover2Mouvement] = useState(false);
@@ -35,10 +35,13 @@ function App() {
     const rover2InitialPosition = lineBreakValue[3]?.split(' ');
     setRoverFinalX({ 1: rover1InitialPosition[0], 2: rover2InitialPosition[0]});
     setRoverFinalY({ 1: rover1InitialPosition[1], 2: rover2InitialPosition[1]});
+    setRoverInitialX({ 1: rover1InitialPosition[0], 2: rover2InitialPosition[0]});
+    setRoverInitialY({ 1: rover1InitialPosition[1], 2: rover2InitialPosition[1]});
     setOrientaion({1: rover1InitialPosition[2], 2: rover2InitialPosition[2]});
     setRover2Mouvement(lineBreakValue[4]?.split(''));
   };
 
+  //Change Rover Orientation State Functions
   function goToN(id){
     console.log('turnToN');
     setOrientaion({...orientation, [id]:"N"});
@@ -59,6 +62,8 @@ function App() {
     setOrientaion({...orientation, [id]:"W"});
     setStep({...step, [id]: step[id]+1 })
   }
+
+  //Change Rover Coordinate Point State Functions
   function goToXMore1(id){
     console.log('x+1');
     if(roverFinalX[id] >= 0 && roverFinalX[id] < maxX){
@@ -89,6 +94,7 @@ function App() {
   }
   
 
+  // Call the corresponding function depending on the orientation of the rovers
   function mouvL(id){
     switch(orientation?.[id]){
       case "N":
@@ -140,6 +146,8 @@ function App() {
         default: console.log('errorrrrr');
     }
   }
+
+  // Function call by the first rover when it's end to move, and wich triggers the second
   function ends(){
     setStep({...step, 2:0})
     console.log('ends');
@@ -147,92 +155,31 @@ function App() {
   
   return (
     <div className="App">
-      <Input handleInputSubmit={handleInputSubmit} />
-      <Grid roverPosition={roverInitialPosition} maxX={maxX} maxY={maxY}>
-      </Grid>
+      <div className="main">
+        <Input handleInputSubmit={handleInputSubmit} />
+        <div className="output">
+          {
+            rover1Mouvement && 
+            <>  
+              <h2>Output</h2>
+              <Rover id={1} step={step[1]} orientation={orientation?.[1]} mouvement={rover1Mouvement} ends={ends} mouvR={mouvR} mouvM={mouvM} mouvL={mouvL} x={roverFinalX?.[1]} y={roverFinalY?.[1]} />
+            </>
+          }
+          {
+            (step?.[2] >= 0) &&
+            <Rover id={2}  step={step[2]} orientation={orientation?.[2]} mouvement={rover2Mouvement} ends={ends} mouvR={mouvR} mouvM={mouvM} mouvL={mouvL} x={roverFinalX?.[2]} y={roverFinalY?.[2]} />
+          }    
+        </div>
+      </div>
       {
-        rover1Mouvement &&
-        <Rover id={1} step={step[1]} orientation={orientation?.[1]} mouvement={rover1Mouvement} ends={ends} mouvR={mouvR} mouvM={mouvM} mouvL={mouvL} x={roverFinalX?.[1]} y={roverFinalY?.[1]} />
-      }
-      {
-        (step?.[2] >= 0) &&
-        <Rover id={2}  step={step[2]} orientation={orientation?.[2]} mouvement={rover2Mouvement} ends={ends} mouvR={mouvR} mouvM={mouvM} mouvL={mouvL} x={roverFinalX?.[2]} y={roverFinalY?.[2]} />
-      }
-      {
-        showOutput &&
-        <Result r1X={roverFinalX?.[1]} r1Y={roverFinalY?.[1]} r1o={orientation?.[1]} r2X={roverFinalX?.[2]} r2Y={roverFinalX?.[2]} r2o={orientation?.[2]}/>
+        (step?.[2] === 10) &&
+        <div className="gridsContainer">
+          <Grid initialValue={true} roverXPosition={roverInitialX} roverYPosition={roverInitialY} maxX={maxX} maxY={maxY} orientation={orientation}></Grid>
+          <Grid initialValue={false} roverXPosition={roverFinalX} roverYPosition={roverFinalY} maxX={maxX} maxY={maxY} orientation={orientation}></Grid>  
+        </div>
       }
     </div>
   );
 }
 
 export default App;
-
-// mouvement.map((value) => {
-//  console.log(mouvement[i]);
-//       let value = mouvement[i]
-//       if(value == "L"){
-//         if(newO == "N") newO = "W";
-//         if(newO == "W") newO = "S";
-//         if(newO == "S") newO = "E";
-//         if(newO == "E") newO = "N";
-//       }
-//       if(value == "R"){
-//         if(newO == "N") newO = "E";
-//         if(newO == "W") newO = "N";
-//         if(newO == "S") newO = "W";
-//         if(newO == "E") newO = "S";
-//       }
-//       if(value == "M"){
-//         if(newO == "N") newY = newY++;
-//         if(newO == "W") newX = newX--;
-//         if(newO == "S") newY = newY--;
-//         if(newO == "E") newX = newX++;
-// })
-// for(let i = 0; i < mouvement.length; i++) {
-//   function getNextMove(value){
-//     if(value == "L"){
-//       if(newO == "N") newO = "W";
-//       if(newO == "W") newO = "S";
-//       if(newO == "S") newO = "E";
-//       if(newO == "E") newO = "N";
-//     }
-//     if(value == "R"){
-//       if(newO == "N") newO = "E";
-//       if(newO == "W") newO = "N";
-//       if(newO == "S") newO = "W";
-//       if(newO == "E") newO = "S";
-//     }
-//     if(value == "M"){
-//       if(newO == "N") { newY = (parseInt(newY)+1);};
-//       if(newO == "W") newX = (parseInt(newX)-1);
-//       if(newO == "S") newY = (parseInt(newY)-1);
-//       if(newO == "E") newX = (parseInt(newX)+1);
-//     }
-//   let value = mouvement[i];
-//   getNextMove(value);
-//   }
-//   console.log(newO, newX, newY, o);
-// }
-// for(let i = 0; i < mouvement.length; i++) {
-//   let value = mouvement[i];
-//   if(value == "L"){
-//     if(newO[i] == "N") newO.push("W");
-//     if(newO[i] == "W") newO.push("S");
-//     if(newO[i] == "S") newO.push("E");
-//     if(newO[i] == "E") newO.push("N");
-//   }
-//   if(value == "R"){
-//     if(newO[i] == "N") newO.push("E");;
-//     if(newO[i] == "W") newO.push("N");
-//     if(newO[i] == "S") newO.push("W");
-//     if(newO[i] == "E") newO.push("S");
-//   }
-//   if(value == "M"){
-//     if(newO[i] == "N") newY.push((parseInt(newY)+1));
-//     if(newO[i] == "W") newX.push((parseInt(newX)-1));
-//     if(newO[i] == "S") newY.push((parseInt(newY)-1));
-//     if(newO[i] == "E") newX.push((parseInt(newX)+1));
-//   }
-//   console.log(newO, newX, newY, o);
-// }
