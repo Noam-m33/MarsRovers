@@ -8,9 +8,9 @@ you can put this instructions inside the textArea and click start to run:
 
 5 5  
 1 2 N  
-LMLMLMLMM 
-3 3 E 
-MMRMMRMRRM 
+LMLMLMLMM  
+3 3 E  
+MMRMMRMRRM  
 
 ### Expected Output
 
