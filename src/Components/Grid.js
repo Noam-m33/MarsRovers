@@ -28,14 +28,14 @@ const Grid = ({ initialValue, roverXPosition, roverYPosition, maxX, maxY, orient
           return(
             <div className='square' id={coordinatePoint}>
               {
-                (rover1Point == coordinatePoint) &&
+                (rover1Point === coordinatePoint) &&
                 <div>
                   <img className={`roverImg ${orientation1}`} src={RoverImage} alt="rover" /> 
                   <p>Rover 1</p>
                 </div>
               }
               {
-                (rover2Point == coordinatePoint) && 
+                (rover2Point === coordinatePoint) && 
                 <div>
                   <img className={`roverImg ${orientation2}`} src={RoverImage} alt="rover" /> 
                   <p>Rover 2</p>

@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 const Rover = ({ step, orientation, mouvement, ends, mouvR, mouvM, mouvL, x, y, id }) => {
+    // Go to the next mouv when the step change
     useEffect(() => {
         console.log(orientation);
         if(step < mouvement.length){
@@ -25,7 +26,7 @@ const Rover = ({ step, orientation, mouvement, ends, mouvR, mouvM, mouvL, x, y, 
     }, [step])
     return(
         <div>
-           {x + " " + y + " " + orientation}
+           {`${x} ${y} ${orientation}`}
         </div>
     )
 }

@@ -5,7 +5,6 @@ import Input from './Components/Input';
 import Rover from './Components/Rover';
 
 function App() {
-  const [roverInitialPosition, setRoverInitalPosition] = useState("00")
   const [maxX, setMaxX] = useState('0')
   const [maxY, setMaxY] = useState('0')
   const [roverFinalX, setRoverFinalX] = useState()
@@ -20,6 +19,12 @@ function App() {
   function handleInputSubmit(inputValue){
     // get and seperate all textArea value
     const lineBreakValue = inputValue?.split("\n");
+
+    // check if input contains 5 lines
+    if(!lineBreakValue?.[4]){
+      alert('invalid input')
+      return
+    }
 
     // set gridArea with max coordinate
     const gridValue = lineBreakValue[0]?.split(' ');
